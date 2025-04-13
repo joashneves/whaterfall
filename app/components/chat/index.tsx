@@ -6,32 +6,30 @@ export default function Chat() {
   const [mensagem, setMensagem] = useState("text");
   //console.log(socket);
 
-      const onConnect = () => {
-        console.log("Conectado ao socket");
-      };
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("Socket conectado com ID:", socket.id);
+    });
   
-      // Listener para receber mensagens atualizadas
-      const onAtualizarMensagem = (novaMensagem: string) => {
-        console.log("Nova mensagem recebida:", novaMensagem);
-        setMensagem(novaMensagem);
-      };
+    socket.on("connect_error", (err) => {
+      console.log("Erro de conexão:", err.message);
+    });
   
-      socket.on("connect", onConnect);
-      socket.on("atualizar_mensagem", onAtualizarMensagem);
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
-      socket.on("disconnect", () => {
-        console.log("Desconectado do socket");
-      });
-    
-  
-    function sendMessage(text: string) {
-      setMensagem(text);
-      // Emitir a mensagem para o servidor
-      if (__DEV__) {
-        console.log(text);
-      }
+  function sendMessage(text: string) {
+    setMensagem(text);
+    console.log("Emitindo mensagem:", text, "Socket conectado:", socket.connected);
+    if (socket.connected) {
       socket.emit("enviar_mensagem", text);
+    } else {
+      console.log("Socket não está conectado!");
     }
+  }
+  
 
   return (
     <>
