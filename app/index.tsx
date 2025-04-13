@@ -1,6 +1,7 @@
 import { Text, View, TextInput } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import HudPage from "./components/HudPage";
+import Chat from "./components/chat";
 
 export default function Index() {
   return (
@@ -16,6 +17,7 @@ export default function Index() {
     >
       <View
         style={{
+          
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
@@ -24,6 +26,7 @@ export default function Index() {
         <HudPage/>
         <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
         <Text style={{color: "#fff"}}>Edit app/index.tsx to edit this screen. </Text>
+        <Chat/>
         </View>
       </View>
     </LinearGradient>
